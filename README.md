@@ -48,6 +48,7 @@ Accessed the DVWA login portal via the local laboratory network and authenticate
 <br>
 
 ![DVWA Login](images/dvwa-login.png)
+
 ![DVWA Dashboard](images/logged-into-dvwa.png)
 
 ---
@@ -64,6 +65,7 @@ Accessed the DVWA login portal via the local laboratory network and authenticate
 <br>
 
 ![LFI Low Setup](images/security-level-set-to-low.png)
+
 ![LFI Successful Exploit](images/security-level-set-to-low-result.png)
 
 ### LFI Defense Analysis
@@ -73,18 +75,21 @@ To understand secure coding practices, LFI payloads were tested against escalati
 *   **Mechanism:** The application attempts to block LFI by using `str_replace()` to strip `../` from the user input.
 *   **Observation:** The standard traversal payload fails and returns a blank page because the required characters are deleted. *(Note: This is insecure, as attackers can bypass it using nested traversals like `....//`).*
 ![Medium Security Block](images/security-level-set-to-medium.png)
+
 ![Medium LFI Block](images/security-level-set-to-medium-result.png)
 
 **2. High Security (Pattern Matching)**
 *   **Mechanism:** The application utilizes `fnmatch()` to enforce a strict pattern match. The input *must* start with the exact string `file` or the inclusion is blocked.
 *   **Observation:** The application successfully stops the standard LFI attack, returning an `ERROR: File not found!` message.
 ![High Security Block](images/security-level-set-to-high.png)
+
 ![High LFI Block](images/security-level-set-to-high-result.png)
 
 **3. Impossible Security (Secure Baseline)**
 *   **Mechanism:** The application abandons dynamic file inclusion entirely, utilizing a strict, hardcoded **Whitelist**. The `?page=` parameter must match a predefined static array. 
 *   **Observation:** The LFI attack is entirely neutralized. This is the industry-standard secure configuration.
 ![Impossible Security Block](images/security-level-set-to-impossible.png)
+
 ![Impossible LFI Block](images/security-level-set-to-impossible-result.png)
 
 ---
